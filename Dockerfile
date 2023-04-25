@@ -2,6 +2,10 @@ FROM node:14.15.3-alpine
 
 LABEL maintainer="Nightscout Contributors"
 
+RUN apk add --no-cache git
+
+RUN git --version
+
 WORKDIR /opt/app
 ADD . /opt/app
 
@@ -12,10 +16,10 @@ RUN npm install --cache /tmp/empty-cache && \
   npm run postinstall && \
   npm run env && \
   rm -rf /tmp/*
-  # TODO: These should be added in the future to correctly cache express-minify content to disk
-  # Currently, doing this breaks the browser cache.
-  # mkdir /tmp/public && \
-  # chown node:node /tmp/public
+# TODO: These should be added in the future to correctly cache express-minify content to disk
+# Currently, doing this breaks the browser cache.
+# mkdir /tmp/public && \
+# chown node:node /tmp/public
 
 USER node
 EXPOSE 1337
